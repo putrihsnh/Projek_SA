@@ -28,7 +28,7 @@ root.title("Aplikasi penukaran uang coin ")
 frame_coins = tk.Frame(root)
 frame_coins.pack(pady=10)
 
-label_coins = tk.Label(frame_coins, text="Masukkan jenis uang coin rupiah : ")
+label_coins = tk.Label(frame_coins, text="Masukkan jenis uang coin (Rp) : ")
 label_coins.grid(row=0, column=0)
 
 entry_coins = tk.Entry(frame_coins)
@@ -37,7 +37,7 @@ entry_coins.grid(row=0, column=1)
 btn_sort_coins = tk.Button(frame_coins, text="Urutkan", command=sort_coins)
 btn_sort_coins.grid(row=0, column=2)
 
-label_amount = tk.Label(root, text="Masukkan nilai yang ingin dipecah (Rp):")
+label_amount = tk.Label(root, text="Masukkan nilai yang ingin dipecah (Rp) : ")
 label_amount.pack()
 
 entry_uang = tk.Entry(root)
