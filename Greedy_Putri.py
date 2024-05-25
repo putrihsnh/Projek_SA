@@ -1,49 +1,60 @@
 import tkinter as tk
 from tkinter import messagebox
 
-def sort_coins():
-    coins = list(map(int, entry_coins.get().split()))
-    coins.sort(reverse=True)
-    entry_coins.delete(0, tk.END)
-    entry_coins.insert(tk.END, ' '.join(map(str, coins)))
+# Dataset
+dataset = [
+    {"Nilai Kembalian": 100, "Kombinasi Koin": [1, 0, 0, 0]},
+    {"Nilai Kembalian": 200, "Kombinasi Koin": [0, 1, 0, 0]},
+    {"Nilai Kembalian": 300, "Kombinasi Koin": [1, 1, 0, 0]},
+    {"Nilai Kembalian": 400, "Kombinasi Koin": [0, 2, 0, 0]},
+    {"Nilai Kembalian": 500, "Kombinasi Koin": [0, 0, 1, 0]},
+    {"Nilai Kembalian": 600, "Kombinasi Koin": [1, 1, 1, 0]},
+    {"Nilai Kembalian": 700, "Kombinasi Koin": [2, 1, 1, 0]},
+    {"Nilai Kembalian": 800, "Kombinasi Koin": [3, 1, 1, 0]},
+    {"Nilai Kembalian": 900, "Kombinasi Koin": [4, 1, 1, 0]},
+    {"Nilai Kembalian": 1000, "Kombinasi Koin": [0, 0, 0, 1]},
+    {"Nilai Kembalian": 1100, "Kombinasi Koin": [1, 0, 1, 1]},
+    {"Nilai Kembalian": 1200, "Kombinasi Koin": [2, 0, 1, 1]},
+    {"Nilai Kembalian": 1300, "Kombinasi Koin": [3, 0, 1, 1]},
+    {"Nilai Kembalian": 1400, "Kombinasi Koin": [4, 0, 1, 1]},
+    {"Nilai Kembalian": 1500, "Kombinasi Koin": [5, 0, 1, 1]},
+    {"Nilai Kembalian": 1600, "Kombinasi Koin": [6, 0, 1, 1]},
+    {"Nilai Kembalian": 1700, "Kombinasi Koin": [7, 0, 1, 1]},
+    {"Nilai Kembalian": 1800, "Kombinasi Koin": [8, 0, 1, 1]},
+    {"Nilai Kembalian": 1900, "Kombinasi Koin": [9, 0, 1, 1]},
+    {"Nilai Kembalian": 2000, "Kombinasi Koin": [10, 0, 1, 1]}
+]
 
-def calculate():
-    try:
-        uang = int(entry_uang.get())
-        coins = list(map(int, entry_coins.get().split()))
-        hasil = [0] * len(coins)
+def hitung_kembalian(denominasi_koin, nilai_kembalian):
+    kembalian = [0, 0, 0, 0]  # Inisialisasi jumlah koin untuk setiap denominasi
+    sisa_nilai = nilai_kembalian
 
-        for i, coin in enumerate(coins):
-            hasil[i] = uang // coin
-            uang %= coin
+    for i, denom in enumerate(reversed(denominasi_koin)):
+        jumlah_koin = min(sisa_nilai // denom, dataset[nilai_kembalian // 100 - 1]["Kombinasi Koin"][3 - i])
+        kembalian[3 - i] = jumlah_koin
+        sisa_nilai -= jumlah_koin * denom
 
-        result_text = "\n".join([f"Koin Rp {coins[i]} - an Sebanyak: {hasil[i]} keping" for i in range(len(coins))])
-        messagebox.showinfo("Hasil Algoritma Greedy", result_text)
-    except ValueError:
-        messagebox.showerror("Error", "Masukkan nilai yang valid")
+    if sisa_nilai != 0:
+        return "Tidak ada kembalian yang tepat untuk nilai tersebut."
+    else:
+        return kembalian
 
+def hitung_kembalian_dan_tampilkan():
+    nilai = int(entry_nilai_kembalian.get())
+    hasil_kembalian = hitung_kembalian([100, 200, 500, 1000], nilai)
+    messagebox.showinfo("Hasil", f"Nilai kembalian {nilai} Rupiah:\nJumlah koin 100 Rupiah: {hasil_kembalian[0]}\nJumlah koin 200 Rupiah: {hasil_kembalian[1]}\nJumlah koin 500 Rupiah: {hasil_kembalian[2]}\nJumlah koin 1000 Rupiah: {hasil_kembalian[3]}")
+
+# Buat GUI
 root = tk.Tk()
-root.title("Aplikasi penukaran uang coin ")
+root.title("Penghitung Kembalian")
 
-frame_coins = tk.Frame(root)
-frame_coins.pack(pady=10)
+label_nilai_kembalian = tk.Label(root, text="Masukkan Nilai Kembalian (dalam Rupiah):")
+label_nilai_kembalian.pack()
 
-label_coins = tk.Label(frame_coins, text="Masukkan jenis uang coin (Rp) : ")
-label_coins.grid(row=0, column=0)
+entry_nilai_kembalian = tk.Entry(root)
+entry_nilai_kembalian.pack()
 
-entry_coins = tk.Entry(frame_coins)
-entry_coins.grid(row=0, column=1)
-
-btn_sort_coins = tk.Button(frame_coins, text="Urutkan", command=sort_coins)
-btn_sort_coins.grid(row=0, column=2)
-
-label_amount = tk.Label(root, text="Masukkan nilai yang ingin dipecah (Rp) : ")
-label_amount.pack()
-
-entry_uang = tk.Entry(root)
-entry_uang.pack()
-
-btn_calculate = tk.Button(root, text="Hitung", command=calculate)
-btn_calculate.pack()
+tombol_hitung = tk.Button(root, text="Hitung Kembalian", command=hitung_kembalian_dan_tampilkan)
+tombol_hitung.pack()
 
 root.mainloop()
