@@ -44,11 +44,11 @@ def hitung_kembalian_dan_tampilkan():
     hasil_kembalian = hitung_kembalian([100, 200, 500, 1000], nilai)
     messagebox.showinfo("Hasil", f"Nilai kembalian {nilai} Rupiah:\nJumlah koin 100 Rupiah: {hasil_kembalian[0]}\nJumlah koin 200 Rupiah: {hasil_kembalian[1]}\nJumlah koin 500 Rupiah: {hasil_kembalian[2]}\nJumlah koin 1000 Rupiah: {hasil_kembalian[3]}")
 
-# Buat GUI
+#GUI
 root = tk.Tk()
 root.title("Penghitung Kembalian")
 
-label_nilai_kembalian = tk.Label(root, text="Masukkan Nilai Kembalian (dalam Rupiah):")
+label_nilai_kembalian = tk.Label(root, text="Masukkan Nilai Kembalian (Rp) : ")
 label_nilai_kembalian.pack()
 
 entry_nilai_kembalian = tk.Entry(root)
